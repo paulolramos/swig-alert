@@ -1,0 +1,44 @@
+<form action="/session/{{sessionId}}/beverage" method="POST"
+    class="bg-gray-100 block p-5 my-16 max-w-md mx-auto space-y-5 rounded font-sans">
+    <h1 class="text-3xl font-thin text-gray-900">Add Beverage</h1>
+    <div>
+        <label class="block text-sm mb-1 text-gray-600" for="name">Drink Name</label>
+        <input
+            class="block border border-gray-200 p-2 w-full rounded shadow-md hover:border-green-600 focus:outline-none focus:ring-2 focus:ring-green-600"
+            id="name" type="text" name="name" required value="" autocomplete="off" />
+    </div>
+    <div class="flex space-x-2">
+        <div class="w-1/2">
+            <label class="block text-sm mb-1 text-gray-600" for="alcoholPercentage">Percentage of Alcohol (ABV)</label>
+            <input
+                class="block border border-gray-200 p-2 w-full rounded shadow-md hover:border-green-600 focus:outline-none focus:ring-2 focus:ring-green-600"
+                id="alcoholPercentage" type="number" name="alcoholPercentage" step="0.01" required placeholder="%" />
+        </div>
+        <div class="w-1/2">
+            <label class="block text-sm mb-1 text-gray-600" for="quantityInOz">Quantity (oz)</label>
+            <input
+                class="block border border-gray-200 p-2 w-full rounded shadow-md hover:border-green-600 focus:outline-none focus:ring-2 focus:ring-green-600"
+                id="quantityInOz" type="text" name="quantityInOz" required value="" autocomplete="off"
+                placeholder="oz" />
+        </div>
+    </div>
+    <div>
+        <input class="rounded inline-block h-4 w-4 shadow-md" id="isConsumed" type="checkbox" name="isConsumed"
+            value="false" />
+        <label class="inline-block text-sm ml-1 mb-1 text-gray-600" for="isConsumed">Have you consumed drink
+            already?</label>
+    </div>
+    <div>
+        <input id="beverage-location" class="rounded inline-block h-4 w-4 shadow-md" type="checkbox"
+            onclick="getLocationCoordinates()" name="beverage-location" />
+        <label class="inline-block text-sm ml-1 mb-1 text-gray-600" for="beverage-location">Save location? <span
+                id="coordinates-message" class="text-xs text-green-700"></span></label>
+        <input type="hidden" name="longitude" id="longitude">
+        <input type="hidden" name="latitude" id="latitude">
+    </div>
+    <button
+        class="block bg-green-700 text-white px-3 py-3  rounded font-bold w-full md:w-1/2 md:mx-auto md:py-2 disabled:opacity-50 disabled:bg-grey-700"
+        type="submit">Add</button>
+    <a href="/session/{{sessionId}}" class="block mt-8 font-bold text-green-700">
+        < Back</a>
+</form>

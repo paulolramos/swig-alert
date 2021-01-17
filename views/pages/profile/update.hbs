@@ -1,0 +1,85 @@
+<div class="mt-5 py-5 px-5 h-full max-w-xl mx-auto">
+    <h1 class="mb-1 text-3xl font-thin text-gray-900">Update Profile</h1>
+    <p class="mb-8 text-xs text-gray-600">Last updated {{dateFromNow user.updatedOn}} ago</p>
+    <form class="space-y-5" action="/user/{{user.id}}?_method=PUT" method="POST">
+        <div>
+            <label class="block text-sm mb-1 text-gray-600" for="username">Username </label>
+            <input
+                class="block border border-gray-200 p-2 w-full rounded shadow-md hover:border-green-600 focus:outline-none focus:ring-2 focus:ring-green-600"
+                id="username" type="text" name="username" value="{{user.username}}" autocomplete="off" />
+        </div>
+        <div class="md:flex md:space-x-3">
+            <div class="mb-5 md:mb-0 md:w-1/2">
+                <label class="block text-sm mb-1 text-gray-600" for="email">Email</label>
+                <input
+                    class="block border border-gray-200 p-2 w-full rounded shadow-md hover:border-green-600 focus:outline-none focus:ring-2 focus:ring-green-600"
+                    id="email" type="email" name="email" value="{{user.email}}" autocomplete="off" />
+            </div>
+            <div class="md:w-1/2">
+                <label class="block text-sm mb-1 text-gray-600" for="phoneNumber">Phone Number</label>
+                <input
+                    class="block border border-gray-200 p-2 w-full rounded shadow-md hover:border-green-600 focus:outline-none focus:ring-2 focus:ring-green-600"
+                    id="phoneNumber" type="tel" name="phoneNumber" value="{{user.phoneNumber}}" autocomplete="off" />
+            </div>
+        </div>
+        <div class="flex space-x-3">
+            <div class="w-3/4">
+                <label class="block text-sm mb-1 text-gray-600" for="sex">Sex</label>
+                <select name="sex" id="sex"
+                    class="block border border-gray-200 p-2.5 w-full rounded shadow-md hover:border-green-600 focus:outline-none focus:ring-2 focus:ring-green-600"
+                    required>
+                    <option selected disabled>{{user.sex}}</option>
+                    <option value="FEMALE">Female</option>
+                    <option value="MALE">Male</option>
+                    <option value="UNDISCLOSED">Prefer not to tell</option>
+                </select>
+            </div>
+            <div class="w-1/4">
+                <label class="block text-sm mb-1 text-gray-600" for="weightInPounds">Weight (lb)</label>
+                <input
+                    class="block border border-gray-200 p-2 w-full rounded shadow-md hover:border-green-600 focus:outline-none focus:ring-2 focus:ring-green-600"
+                    id="weightInPounds" type="tel" name="weightInPounds" value="{{user.weightInPounds}}"
+                    autocomplete="off" />
+            </div>
+        </div>
+        <div class="md:flex md:flex-row md:space-x-3">
+            <div class="mb-5 md:mb-0 md:w-1/3">
+                <label class="block text-sm mb-1 text-gray-600" for="habitType">Drink Habit</label>
+                <select name="habitType" id="habitType"
+                    class="block border border-gray-200 p-2.5 w-full rounded shadow-md hover:border-green-600 focus:outline-none focus:ring-2 focus:ring-green-600"
+                    required>
+                    <option selected disabled>{{user.habitType}}</option>
+                    <option value="OCCASSIONAL">Occassional</option>
+                    <option value="AVERAGE">Average</option>
+                    <option value="HEAVY">Heavy</option>
+                </select>
+            </div>
+            <div class="md:w-2/3">
+                <label class="block text-sm mb-1 text-gray-600" for="drinkTimeMinutes">Approximate Drink Consumption
+                    Time
+                    (minutes)</label>
+                <input
+                    class="block border border-gray-200 p-2 w-full rounded shadow-md hover:border-green-600 focus:outline-none focus:ring-2 focus:ring-green-600"
+                    id="drinkTimeMinutes" type="number" name="drinkTimeMinutes" value="{{user.drinkTimeMinutes}}"
+                    autocomplete="off" />
+            </div>
+        </div>
+        <div>
+            <label class="block text-sm mb-1 text-gray-600" for="safeWord">Safe Word</label>
+            <input
+                class="block border border-gray-200 p-2 w-full rounded shadow-md hover:border-green-600 focus:outline-none focus:ring-2 focus:ring-green-600"
+                id="safeWord" type="text" name="safeWord" value="{{user.safeWord}}" autocomplete="off" />
+        </div>
+        <div class="block flex justify-between items-end mt-5 mb-10">
+            <a href="/profile" class="text-green-700 font-bold">
+                < Back</a>
+                    <button class="block bg-green-700 rounded mt-4 px-4 py-1 text-white hover:bg-green-600"
+                        type="submit">Update</button>
+        </div>
+    </form>
+    <form class="block flex justify-end" action="/user/{{user.id}}/delete" method="GET">
+        <button
+            class="text-right block border border-red-700 rounded mt-4 px-4 py-1 text-red-700 hover:bg-red-700 hover:text-white"
+            type="submit">Delete</button>
+    </form>
+</div>

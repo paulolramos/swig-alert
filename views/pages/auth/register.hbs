@@ -1,0 +1,37 @@
+<form action="/auth/register" method="POST"
+    class="bg-gray-100 block p-5 my-16 max-w-md mx-auto space-y-5 rounded font-sans">
+    <h1 class="text-3xl font-thin text-gray-900">Register</h1>
+    <div>
+        <label class="block text-sm mb-1 text-gray-600" for="username">Username</label>
+        <input
+            class="block border border-gray-200 p-2 w-full rounded shadow-md hover:border-green-600 focus:outline-none focus:ring-2 focus:ring-green-600"
+            id="username" type="text" name="username" required value="{{newUser.username}}" autocomplete="off" />
+    </div>
+    <div>
+        <label class="block text-sm mb-1 text-gray-600" for="password">Password</label>
+        <input
+            class="block border border-gray-200 p-2 w-full rounded shadow-md hover:border-green-600 focus:outline-none focus:ring-2 focus:ring-green-600"
+            id="password" type="password" name="password" required />
+    </div>
+    <div class="flex space-x-2">
+        <div class="w-3/4">
+            <label class="block text-sm mb-1 text-gray-600" for="sex">Sex</label>
+            <select name="sex" id="sex"
+                class="block border border-gray-200 p-2.5 w-full rounded shadow-md hover:border-green-600 focus:outline-none focus:ring-2 focus:ring-green-600"
+                required>
+                <option selected disabled>-</option>
+                <option value="FEMALE">Female</option>
+                <option value="MALE">Male</option>
+                <option value="UNDISCLOSED">Prefer not to tell</option>
+            </select>
+        </div>
+        <div class="w-1/4">
+            <label class="block text-sm mb-1 text-gray-600" for="weightInPounds">Weight (lb)</label>
+            <input
+                class="block border border-gray-200 p-2 w-full rounded shadow-md hover:border-green-600 focus:outline-none focus:ring-2 focus:ring-green-600"
+                id="weightInPounds" type="number" name="weightInPounds" required autocomplete="off" />
+        </div>
+    </div>
+    <button class="block bg-green-700 text-white px-3 py-3  rounded font-bold w-full md:w-1/2 md:mx-auto md:py-2"
+        type="submit">Register</button>
+</form>

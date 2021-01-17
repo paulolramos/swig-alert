@@ -1,0 +1,29 @@
+<section class="h-96 mt-4">
+    <iframe id="gmap-session" class="w-full h-full shadow-md" frameborder="0" style="border:0"
+        src="https://www.google.com/maps/embed/v1/place?key=AIzaSyBEVls8sb_7gwDYUfJjrDOvXjR6h-ogNoE&q={{beverage.latitude}}+{{beverage.longitude}}">
+    </iframe>
+</section>
+<div class="mx-auto my-10 max-w-lg">
+    <div class="mb-4">
+        <div class="flex justify-between items-end mb-2">
+            <h1 class="text-4xl font-thin text-gray-900">{{beverage.name}}</h1>
+            {{#if beverage.isConsumed}}
+            <p class="rounded px-2 py-1 h-1/2 text-xs text-white bg-red-700">CONSUMED</p>
+            {{/if}}
+        </div>
+        <p class="text-gray-600 text-sm">{{formatDate beverage.consumedAt}}</p>
+    </div>
+    <section id={{beverage.id}} class="mb-4 space-y-2">
+        <p>Percentage: {{beverage.alcoholPercentage}}%</p>
+        <p>Quantity: {{beverage.quantityInOz}}oz</p>
+        <p>Beverage Type: {{beverage.beverageType}}</p>
+    </section>
+    {{#if beverage.isConsumed}}
+    {{else}}
+    <form class="mt-5" action="/session/{{sid}}/beverage/{{beverage.id}}/consume?_method=PUT" method="post">
+        <input class="w-full bg-red-800 py-4 px-12 rounded text-white cursor-pointer" type="submit" value="Consume">
+    </form>
+    {{/if}}
+    <a href="/session/{{sid}}/beverage" class="block mt-8 font-bold text-green-700">
+        < Back</a>
+</div>

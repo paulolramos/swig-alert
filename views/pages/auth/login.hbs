@@ -1,0 +1,24 @@
+<form action="/auth/login" method="POST"
+  class="bg-gray-100 block p-5 my-16 max-w-md mx-auto space-y-5 rounded font-sans">
+  {{#if message}}
+  <p class="text-xl font-thin text-green-700">{{message}}</p>
+  {{/if}}
+  <h1 class="text-3xl font-thin text-gray-900">Login</h1>
+  <div>
+    <label class="block text-sm mb-1 text-gray-600" for="username">Username</label>
+    <input
+      class="block border border-gray-200 p-2 w-full rounded shadow-md hover:border-green-600 focus:outline-none focus:ring-2 focus:ring-green-600"
+      id="username" type="text" name="username" required value="{{newUser.username}}" autocomplete="off" />
+  </div>
+  <div>
+    <label class="block text-sm mb-1 text-gray-600" for="password">Password</label>
+    <input
+      class="block border border-gray-200 p-2 w-full rounded shadow-md hover:border-green-600 focus:outline-none focus:ring-2 focus:ring-green-600"
+      id="password" type="password" name="password" required />
+  </div>
+  <button class="block bg-green-700 text-white px-3 py-2  rounded font-bold w-full md:w-1/2 md:mx-auto"
+    type="submit">Login</button>
+  <a href="/auth/register" class="block text-green-700 mx-auto hover:underline text-center">Don't have an account?
+    Register
+    here.</a>
+</form>

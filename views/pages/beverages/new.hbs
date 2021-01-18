@@ -7,6 +7,18 @@
             class="block border border-gray-200 p-2 w-full rounded shadow-md hover:border-green-600 focus:outline-none focus:ring-2 focus:ring-green-600"
             id="name" type="text" name="name" required value="" autocomplete="off" />
     </div>
+    <div>
+        <label class="block text-sm mb-1 text-gray-600" for="sex">Drink Type</label>
+        <select name="beverageType" id="beverageType"
+            class="block border border-gray-200 p-2 w-full rounded shadow-md hover:border-green-600 focus:outline-none focus:ring-2 focus:ring-green-600"
+            required>
+            <option selected disabled>-</option>
+            <option value="BEER">Beer</option>
+            <option value="SPIRIT">Spirit</option>
+            <option value="WINE">Wine</option>
+            <option value="UNKNOWN">Unknown</option>
+        </select>
+    </div>
     <div class="flex space-x-2">
         <div class="w-1/2">
             <label class="block text-sm mb-1 text-gray-600" for="alcoholPercentage">Percentage of Alcohol (ABV)</label>

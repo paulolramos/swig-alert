@@ -83,8 +83,9 @@ export class AuthController {
       httpOnly: true,
       signed: true,
       sameSite: true,
-      // secure: true,
+      secure: process.env.NODE_ENV === 'production' ? true : false,
     });
+
     this.logger.debug(`Setting access token for user: ${req.user.username}`);
     return res.redirect('/profile');
   }

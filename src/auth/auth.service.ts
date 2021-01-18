@@ -61,7 +61,7 @@ export class AuthService {
     } else {
       this.logger.debug(`Creating user: ${user.username}`);
       const newUser = new User();
-      newUser.username = user.username;
+      newUser.username = user.username.toLowerCase();
       newUser.password = await bcrypt.hash(user.password, 10);
       newUser.weightInPounds = user.weightInPounds;
       newUser.sex = user.sex;
@@ -76,7 +76,7 @@ export class AuthService {
   // Returns an access token. This designates user as logged in and can access protected routes
   async login(user: User): Promise<{ token: string }> {
     const payload = {
-      username: user.username,
+      username: user.username.toLowerCase(),
       sub: String(user.id),
     } as JWTPayload;
     const access_token = this.jwtService.sign(payload);

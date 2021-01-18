@@ -16,15 +16,18 @@ export class UserService implements IUserService {
   }
 
   async findUserByUsername(username: string): Promise<User> {
-    return await this.userRepository.findOne({ username });
+    return await this.userRepository.findOne({ where: { id: username } });
   }
 
   async findUserByEmail(email: string): Promise<User> {
-    return await this.userRepository.findOne({ email });
+    return await this.userRepository.findOne({ where: { email } });
   }
 
   async findUserById(id: string): Promise<User> {
-    return await this.userRepository.findOne(id, { relations: ['sessions'] });
+    return await this.userRepository.findOne({
+      where: { id },
+      relations: ['sessions'],
+    });
   }
 
   async getFullUserProfile(id: string): Promise<User> {

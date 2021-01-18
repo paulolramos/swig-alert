@@ -21,13 +21,16 @@ export class BeverageService implements IBeverageService {
     userId: string,
     sessionId: string,
   ): Promise<Beverage[]> {
-    const session = await this.sessionRepository.manager
-      .createQueryBuilder(Session, 'session')
-      .leftJoinAndSelect('session.beverages', 'beverage')
-      .where('session.user.id = :id', { id: userId })
-      .where('session.id = :sid', { sid: sessionId })
-      .getOne();
-    const beverages = session && session.beverages ? session.beverages : [];
+    const beverages = await this.beverageRepository.find({
+      where: {
+        session: {
+          id: sessionId,
+          user: {
+            id: userId,
+          },
+        },
+      },
+    });
 
     if (beverages.length > 0) {
       this.logger.debug(`Getting beverages for u/${userId}/s/${sessionId}`);
@@ -71,11 +74,14 @@ export class BeverageService implements IBeverageService {
     sessionId: string,
     beverage: Beverage,
   ): Promise<Beverage> {
-    const session = await this.sessionRepository.manager
-      .createQueryBuilder(Session, 'session')
-      .where('session.user.id = :id', { id: userId })
-      .where('session.id = :sid', { sid: sessionId })
-      .getOne();
+    const session = await this.sessionRepository.findOne({
+      where: {
+        id: sessionId,
+        user: {
+          id: userId,
+        },
+      },
+    });
 
     if (session) {
       const increaseInBac = this.bacService.getIncreaseInBac(

@@ -15,7 +15,7 @@ export class Session {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => User, (user) => user.sessions)
+  @ManyToOne(() => User, (user) => user.sessions, { onDelete: 'CASCADE' })
   user: User;
 
   @Column({ width: 136 })

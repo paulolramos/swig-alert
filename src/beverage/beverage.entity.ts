@@ -40,6 +40,8 @@ export class Beverage {
   @CreateDateColumn()
   createdOn: Date;
 
-  @ManyToOne(() => Session, (session) => session.beverages)
+  @ManyToOne(() => Session, (session) => session.beverages, {
+    onDelete: 'CASCADE',
+  })
   session: Session;
 }

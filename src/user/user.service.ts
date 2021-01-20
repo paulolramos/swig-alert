@@ -43,6 +43,7 @@ export class UserService implements IUserService {
   }
 
   async updateUser(id: string, user: User): Promise<boolean> {
+    user.username = user.username.toLowerCase();
     const _user = await this.userRepository.findOne(id);
     const userNameAlreadyExists = await this.userRepository.findOne({
       username: user.username,
@@ -55,7 +56,7 @@ export class UserService implements IUserService {
         return true;
       } else {
         this.logger.debug(
-          `Unable to update. ${userNameAlreadyExists.username} already exists`,
+          `Unable to update ${userNameAlreadyExists.username} already exists`,
         );
         return false;
       }

@@ -56,9 +56,7 @@ export class NotificationService {
         );
 
         // compose message
-        const message = `after ${1} min your Blood Alcohol Content is current around ${
-          session.bloodAlcoholContent
-        }.`;
+        const message = `after ${user.drinkTimeMinutes} min your Blood Alcohol Content is current around ${session.bloodAlcoholContent}.`;
 
         // send sms
         const smsResponse = await this.twilioClient.messages.create({
@@ -83,5 +81,15 @@ export class NotificationService {
       this.logger.debug('no phone number available to send sms notification');
       return;
     }
+  }
+
+  deleteSMSJob(userId: string, sessionId: string, beverageId: string) {
+    const jobName = `sms-u/${userId}/s/${sessionId}/b/${beverageId}`;
+    try {
+      this.schedulerRegistry.deleteCronJob(jobName);
+    } catch (error) {
+      return this.logger.debug(`job ${jobName} not found`);
+    }
+    this.logger.debug(`job ${jobName} deleted`);
   }
 }

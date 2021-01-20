@@ -105,7 +105,7 @@ export class BeverageService implements IBeverageService {
 
       if (session.setDrinkReminder === true && !beverage.isConsumed) {
         this.notificationService.drinkSMS(
-          `sms-s/${sessionId}/b/${newBeverage.id}`,
+          `sms-u/${userId}/s/${sessionId}/b/${newBeverage.id}`,
           userId,
           sessionId,
         );
@@ -128,6 +128,7 @@ export class BeverageService implements IBeverageService {
     const beverage = await this.getBeverageById(userId, sessionId, id);
     beverage.isConsumed = true;
     beverage.consumedAt = new Date();
+    this.notificationService.deleteSMSJob(userId, sessionId, id);
     this.logger.debug(`u/${userId}/s/${sessionId} consumed b/${beverage.id}`);
     return await this.beverageRepository.save(beverage);
   }

@@ -1,6 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { BacService } from 'src/bac/bac.service';
+import { NotificationService } from 'src/notification/notification.service';
 import { Session } from 'src/session/session.entity';
 import { Repository } from 'typeorm';
 import { Beverage } from './beverage.entity';
@@ -15,6 +16,7 @@ export class BeverageService implements IBeverageService {
     @InjectRepository(Session)
     private sessionRepository: Repository<Session>,
     private bacService: BacService,
+    private notificationService: NotificationService,
   ) {}
 
   async getAllBeveragesBySessionId(
@@ -95,15 +97,21 @@ export class BeverageService implements IBeverageService {
       session.bloodAlcoholContent = newBAC;
       beverage.session = session;
 
-      if (session.setDrinkReminder === true) {
-        // Handle reminders
-        // check again for phone number
-      }
       this.logger.debug(
         `adding b/${beverage.name} to u/${userId}/s/${session.id}`,
       );
       this.sessionRepository.save(session);
-      return this.beverageRepository.save(beverage);
+      const newBeverage = await this.beverageRepository.save(beverage);
+
+      if (session.setDrinkReminder === true && !beverage.isConsumed) {
+        this.notificationService.drinkSMS(
+          `sms-s/${sessionId}/b/${newBeverage.id}`,
+          userId,
+          sessionId,
+        );
+      }
+
+      return newBeverage;
     } else {
       this.logger.warn(
         `Unable to add b/${beverage.name} to u/${userId}/s/${sessionId}. Session doesn't exist.`,

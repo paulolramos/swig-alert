@@ -5,12 +5,14 @@ import { BeverageService } from './beverage.service';
 import { BeverageController } from './beverage.controller';
 import { BacModule } from 'src/bac/bac.module';
 import { SessionModule } from 'src/session/session.module';
+import { NotificationModule } from 'src/notification/notification.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([Beverage]),
     forwardRef(() => SessionModule),
     BacModule,
+    NotificationModule,
   ],
   providers: [BeverageService],
   controllers: [BeverageController],

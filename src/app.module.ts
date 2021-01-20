@@ -12,6 +12,7 @@ import { BeverageModule } from './beverage/beverage.module';
 import { BacModule } from './bac/bac.module';
 import { ProfileModule } from './profile/profile.module';
 import { ScheduleModule } from '@nestjs/schedule';
+import { NotificationModule } from './notification/notification.module';
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { ScheduleModule } from '@nestjs/schedule';
     BeverageModule,
     BacModule,
     ProfileModule,
+    NotificationModule,
   ],
   controllers: [AppController],
 })

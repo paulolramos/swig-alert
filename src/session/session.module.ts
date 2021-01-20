@@ -10,7 +10,7 @@ import { BacModule } from 'src/bac/bac.module';
 @Module({
   imports: [
     TypeOrmModule.forFeature([Session]),
-    UserModule,
+    forwardRef(() => UserModule),
     forwardRef(() => BeverageModule),
     BacModule,
   ],

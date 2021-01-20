@@ -1,6 +1,7 @@
 # compiled output
 /dist
 /node_modules
+/public/css/tailwind.css
 
 # Logs
 logs
@@ -36,4 +37,3 @@ lerna-debug.log*
 *.env
 *.db
 ecosystem.config.js
-public/css/tailwind.css

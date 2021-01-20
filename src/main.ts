@@ -16,7 +16,14 @@ const hbs = exhbs.create({
   partialsDir: join(__dirname, '..', 'views/partials'),
   helpers: {
     formatDate: function (dateString: string): string {
-      return new Date(dateString).toLocaleTimeString('en-us', {
+      const date = new Date(dateString);
+      const newDate = new Date(
+        date.getTime() + date.getTimezoneOffset() * 60 * 1000,
+      );
+      const offset = date.getTimezoneOffset() / 60;
+      const hours = date.getHours();
+      newDate.setHours(hours - offset);
+      return newDate.toLocaleTimeString('en-us', {
         weekday: 'long',
         year: 'numeric',
         month: 'long',

@@ -36,3 +36,4 @@ lerna-debug.log*
 *.env
 *.db
 ecosystem.config.js
+public/css/tailwind.css

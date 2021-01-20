@@ -51,6 +51,7 @@
     "rxjs": "^6.6.3",
     "sqlite3": "^5.0.0",
     "tailwindcss": "^2.0.2",
+    "twilio": "^3.55.0",
     "typeorm": "^0.2.29"
   },
   "devDependencies": {

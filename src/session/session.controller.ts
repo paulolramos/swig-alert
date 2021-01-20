@@ -72,17 +72,23 @@ export class SessionController {
     @Request() req: RequestWithUserPayload,
     @Param('id') id: string,
   ) {
-    const user = this.userService.findUserById(req.user.userId);
+    const user = await this.userService.findUserById(req.user.userId);
+
     const session = await this.sessionService.getSessionById(
       req.user.userId,
       id,
     );
+
+    if (!user.phoneNumber) {
+      session.setDrinkReminder = false;
+    }
+
     const effects = this.bacService.getEffectsOfAlcohol(
       session.bloodAlcoholContent,
     );
     const hourTillSober = this.bacService.getHoursUntilSober(
       session.bloodAlcoholContent,
-      (await user).habitType,
+      user.habitType,
     );
     const viewModel = { session, effects, hourTillSober };
     return viewModel;

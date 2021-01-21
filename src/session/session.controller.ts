@@ -56,6 +56,32 @@ export class SessionController {
   }
 
   @UseGuards(JwtAuthGuard)
+  @Get('past/:id/delete')
+  @Render('pages/session/past/delete')
+  async confirmDeletePastSession(
+    @Request() req: RequestWithUserPayload,
+    @Param('id') id: string,
+  ) {
+    const session = await this.sessionService.getSessionById(
+      req.user.userId,
+      id,
+    );
+    return { session };
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Delete('past/:id')
+  async deletePastSession(
+    @Request() req: RequestWithUserPayload,
+    @Res() res: Response,
+    @Param('id') id: string,
+  ) {
+    await this.sessionService.deleteSession(req.user.userId, id);
+    return res.redirect('/session/past/all');
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard)
   @Get('new')
   async newSession(
     @Res() res: Response,

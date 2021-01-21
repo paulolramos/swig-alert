@@ -20,12 +20,7 @@
     <main>
         {{{body}}}
         <script src="/js/coordinates.js"></script>
-        <script>
-            const dates = document.querySelectorAll(".date")
-            for (let date of dates) {
-                date.innerHTML = moment(new Date(date.innerHTML)).format('MMMM Do YYYY, h:mm a')
-            }
-        </script>
+        <script src="/js/dates.js"></script>
     </main>
 </body>
 

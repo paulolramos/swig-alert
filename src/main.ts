@@ -7,36 +7,12 @@ import * as methodOverride from 'method-override';
 import { join } from 'path';
 import { AppModule } from './app.module';
 import { UnauthorizedFilter } from './filters/unauthorized.filter';
-import { formatDistanceToNow } from 'date-fns';
 
 const hbs = exhbs.create({
   extname: 'hbs',
   defaultLayout: 'default',
   layoutsDir: join(__dirname, '..', 'views/layouts'),
   partialsDir: join(__dirname, '..', 'views/partials'),
-  helpers: {
-    formatDate: function (dateString: string): string {
-      const date = new Date(dateString);
-      const newDate = new Date(
-        date.getTime() + date.getTimezoneOffset() * 60 * 1000,
-      );
-      const offset = date.getTimezoneOffset() / 60;
-      const hours = date.getHours();
-      newDate.setHours(hours - offset);
-      return newDate.toLocaleTimeString('en-us', {
-        weekday: 'long',
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit',
-      });
-    },
-    dateFromNow: function (dateString: string): string {
-      const sinceDate = new Date(dateString);
-      return formatDistanceToNow(sinceDate);
-    },
-  },
 });
 
 async function bootstrap() {

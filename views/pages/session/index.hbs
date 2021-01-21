@@ -13,7 +13,7 @@
             <div id="overview" class="space-y-1 mb-4">
                 <p>Drinks Consumed: {{session.beverages.length}}</p>
                 <p>Estimated Blood Alcohol Content: {{session.bloodAlcoholContent}}</p>
-                <p>Session Start: {{formatDate session.sessionStart}}</p>
+                <p>Session Start: <span class="long-date hidden">{{session.sessionStart}}</span> </p>
             </div>
             <div id="effects" class="space-y-4">
                 <div>
@@ -43,7 +43,8 @@
                 {{#if session.setDrinkReminder}}
                 <p>Reminders are turned on.</p>
                 {{/if}}
-                <p class="text-gray-900 text-sm text-right"><em>Last updated: {{dateFromNow session.updatedOn}} ago</em>
+                <p class="text-gray-900 text-sm text-right"><em>Last updated: <span
+                            class="relative-date hidden">{{session.updatedOn}}</span></em>
                 </p>
             </div>
         </section>

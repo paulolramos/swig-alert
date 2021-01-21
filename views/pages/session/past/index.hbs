@@ -5,7 +5,7 @@
 </section>
 <div class="flex flex-col mx-5 my-8 md:max-w-3xl md:flex-row md:mx-auto lg:max-w-4xl xl:max-w-6xl">
     <div class="md:w-1/2 md:mr-2">
-        <h1 class="text-4xl font-thin text-gray-900 mb-6 max-w-md">{{formatDate session.sessionStart}}
+        <h1 class="long-date hidden font-thin text-gray-900 mb-6 max-w-md text-3xl">{{session.sessionStart}}
         </h1>
         <div>
             <section class="mb-4">
@@ -13,7 +13,7 @@
                 <p>Estimated Duration: {{session.estimatedDurationInHours}} hours</p>
                 <p>Drinks Consumed: {{session.beverages.length}}</p>
                 <p>Estimated Blood Alcohol Content: {{session.bloodAlcoholContent}}</p>
-                <p>Last update: {{dateFromNow session.updatedOn}} ago</p>
+                <p>Last update: <span class="relative-date hidden">{{session.updatedOn}}</span></p>
             </section>
             <div id="effects" class="space-y-4">
                 <div>
@@ -56,13 +56,13 @@
                 onclick="updateMap(event)" data-longitude="{{this.longitude}}" data-latitude="{{this.latitude}}">
                 <span>{{this.name}}</span>
                 <span>{{this.alcoholPercentage}}% {{this.quantityInOz}}oz</span>
-                <span>{{formatDate this.createdOn}}</span>
+                <span class="long-date hidden">{{this.createdOn}}</span>
             </div>
             {{else}}
             <div class="flex justify-between bg-red-700 text-white p-4 rounded text-xs shadow-md md:text-sm">
                 <span>{{this.name}}</span>
                 <span>{{this.alcoholPercentage}}% {{this.quantityInOz}}oz</span>
-                <span>{{formatDate this.createdOn}}</span>
+                <span class="long-date hidden">{{this.createdOn}}</span>
             </div>
             {{/if}}
             {{/each}}

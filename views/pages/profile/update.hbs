@@ -1,6 +1,6 @@
 <div class="mt-5 py-5 px-5 h-full max-w-xl mx-auto">
     <h1 class="mb-1 text-3xl font-thin text-gray-900">Update Profile</h1>
-    <p class="mb-8 text-xs text-gray-600">Last updated {{dateFromNow user.updatedOn}} ago</p>
+    <p class="mb-8 text-xs text-gray-600">Last updated <span class="relative-date hidden">{{user.updatedOn}}</span></p>
     <form class="space-y-5" action="/user/{{user.id}}?_method=PUT" method="POST">
         <div>
             <label class="block text-sm mb-1 text-gray-600" for="username">Username </label>

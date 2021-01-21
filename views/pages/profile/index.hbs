@@ -19,7 +19,8 @@
         <div class="flex justify-between items-end mb-6">
             <h1 class="text-4xl font-thin text-gray-900">Profile
             </h1>
-            <p class="text-right text-xs text-gray-600">Joined {{dateFromNow user.createdOn}} ago</p>
+            <p class="text-right text-xs text-gray-600">Joined <span
+                    class="relative-date hidden">{{user.createdOn}}</span></p>
         </div>
         <section>
             <div>

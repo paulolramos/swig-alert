@@ -1,12 +1,10 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { Beverage } from 'src/beverage/beverage.entity';
 import { HabitOptions } from 'src/types/habit.enum';
 import { SexOptions } from 'src/types/sex.enum';
 
 @Injectable()
 export class BacService {
-  private logger = new Logger(BacService.name);
-
   private convertPoundsToKilograms(pounds: number): number {
     const value = pounds / 2.2046;
     return parseFloat(value.toFixed(2));
@@ -85,8 +83,6 @@ export class BacService {
       quantityInOz,
     );
     const newBac = (amountOfAlcoholInDrink * userBaseBac).toFixed(4);
-
-    this.logger.debug(`bac increased by ${newBac}`);
     return parseFloat(newBac);
   }
 
@@ -143,7 +139,6 @@ export class BacService {
   getEffectsOfAlcohol(
     userBac: number,
   ): { behaviors: string[]; impairments: string[] } {
-    this.logger.debug(`Getting alcohol effects for bac of: ${userBac}`);
     let behaviors = [];
     let impairments = [];
 

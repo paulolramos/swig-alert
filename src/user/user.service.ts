@@ -55,7 +55,7 @@ export class UserService implements IUserService {
         await this.userRepository.update(id, user);
         return true;
       } else {
-        this.logger.debug(
+        this.logger.warn(
           `Unable to update ${userNameAlreadyExists.username} already exists`,
         );
         return false;
@@ -67,7 +67,7 @@ export class UserService implements IUserService {
   }
 
   async deleteUser(id: string): Promise<void> {
-    this.logger.debug(`deleting user ${id}`);
+    this.logger.log(`deleting user ${id}`);
     await this.userRepository.delete(id);
   }
 }

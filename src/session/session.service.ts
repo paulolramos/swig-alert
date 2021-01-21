@@ -61,7 +61,6 @@ export class SessionService implements ISessionService {
     });
 
     if (session) {
-      this.logger.debug(`Getting session: ${id}`);
       return session;
     } else {
       this.logger.warn(`session [${id}] not found`);
@@ -99,7 +98,6 @@ export class SessionService implements ISessionService {
   async createSession(userId: string, session: Session): Promise<Session> {
     const user = await this.userRepository.findOne(userId);
     if (user) {
-      this.logger.debug(`Creating new session for: ${user.username}`);
       session.weightSnapshot = user.weightInPounds;
       session.baseBloodAlcoholContentSnapshot = user.baseBloodAlcoholContent;
       session.isActive = true;
@@ -122,7 +120,6 @@ export class SessionService implements ISessionService {
 
     if (session) {
       if (session.isActive) {
-        this.logger.debug(`Ending session [${session.id}]`);
         session.isActive = false;
         session.sessionEnd = new Date();
         await this.sessionRepository.save(session);
@@ -147,7 +144,6 @@ export class SessionService implements ISessionService {
     });
 
     if (session) {
-      this.logger.debug(`Deleting session [${session.id}]`);
       await this.sessionRepository.delete(session.id);
     } else {
       this.logger.warn(`Session [${id}] not found`);

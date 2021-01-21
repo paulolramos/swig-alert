@@ -35,7 +35,6 @@ export class BeverageService implements IBeverageService {
     });
 
     if (beverages.length > 0) {
-      this.logger.debug(`Getting beverages for u/${userId}/s/${sessionId}`);
       return beverages;
     } else {
       this.logger.warn(`No beverages found for u/${userId}/s/${sessionId}`);
@@ -59,9 +58,6 @@ export class BeverageService implements IBeverageService {
     });
 
     if (beverage) {
-      this.logger.debug(
-        `Getting beverage [${beverage.id}] for u/${userId}/s/${sessionId}`,
-      );
       return beverage;
     } else {
       this.logger.warn(
@@ -97,9 +93,6 @@ export class BeverageService implements IBeverageService {
       session.bloodAlcoholContent = newBAC;
       beverage.session = session;
 
-      this.logger.debug(
-        `adding b/${beverage.name} to u/${userId}/s/${session.id}`,
-      );
       this.sessionRepository.save(session);
       const newBeverage = await this.beverageRepository.save(beverage);
 
@@ -129,7 +122,6 @@ export class BeverageService implements IBeverageService {
     beverage.isConsumed = true;
     beverage.consumedAt = new Date();
     this.notificationService.deleteSMSJob(userId, sessionId, id);
-    this.logger.debug(`u/${userId}/s/${sessionId} consumed b/${beverage.id}`);
     return await this.beverageRepository.save(beverage);
   }
 }

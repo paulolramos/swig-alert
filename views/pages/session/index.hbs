@@ -48,13 +48,11 @@
         </section>
         <hr class="my-5">
         <section id="info">
-            <div class="space-y-1">
+            <div class="space-y-1 text-right text-sm">
                 {{#if session.setDrinkReminder}}
-                <p>Reminders are turned on.</p>
+                <p><strong>Reminders are turned on.</strong></p>
                 {{/if}}
-                <p class="text-gray-900 text-sm text-right"><em>Last updated: <span
-                            class="relative-date hidden">{{session.updatedOn}}</span></em>
-                </p>
+                <p><em>Last updated: <span class="relative-date hidden">{{session.updatedOn}}</span></em></p>
             </div>
         </section>
         <section id="controls" class="flex flex-col space-y-3 my-8 sm:flex-row sm:space-y-0 sm:space-x-4">

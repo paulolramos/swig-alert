@@ -1,4 +1,5 @@
 import { Beverage } from 'src/beverage/beverage.entity';
+import { HabitOptions } from 'src/types/habit.enum';
 import { User } from 'src/user/user.entity';
 import {
   Column,
@@ -20,6 +21,9 @@ export class Session {
 
   @Column({ width: 136 })
   weightSnapshot: number;
+
+  @Column({ nullable: true, length: 12 })
+  habitTypeSnapshot: HabitOptions;
 
   @Column({ type: 'float', width: 100 })
   baseBloodAlcoholContentSnapshot: number;

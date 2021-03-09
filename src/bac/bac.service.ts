@@ -15,11 +15,6 @@ export class BacService {
     return value;
   }
 
-  private convertMillilitersToOz(ml: number): number {
-    const value = ml / 29.574;
-    return value;
-  }
-
   private getAlcoholInDrink(percent: number, oz: number): number {
     const amount = (percent / 100) * oz;
     return amount;

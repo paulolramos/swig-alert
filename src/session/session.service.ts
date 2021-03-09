@@ -1,6 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { Cron, CronExpression } from '@nestjs/schedule';
+import { CronExpression, SchedulerRegistry } from '@nestjs/schedule';
 import { InjectRepository } from '@nestjs/typeorm';
+import { CronJob } from 'cron';
 import { session } from 'passport';
 import { BacService } from 'src/bac/bac.service';
 import { ISessionService } from 'src/session/session.service.interface';
@@ -13,6 +14,7 @@ export class SessionService implements ISessionService {
   private readonly logger = new Logger(SessionService.name);
   constructor(
     @InjectRepository(Session) private sessionRepository: Repository<Session>,
+    private schedulerRegistry: SchedulerRegistry,
     private userService: UserService,
     private bacService: BacService,
   ) {}
@@ -106,7 +108,44 @@ export class SessionService implements ISessionService {
       session.user = user;
       session.habitTypeSnapshot = user.habitType;
 
-      return await this.sessionRepository.save(session);
+      const newSession = await this.sessionRepository.save(session);
+
+      // Update BAC after every hour
+      const burnOffUpdater = new CronJob(
+        CronExpression.EVERY_HOUR,
+        async () => {
+          this.logger.debug(
+            `checking session [${newSession.id}] for burnoff...`,
+          );
+          const _session = await this.sessionRepository.findOne(newSession.id);
+          if (_session.isActive && _session.bloodAlcoholContent > 0) {
+            const updatedBac = this.bacService.getBacAfterOneHour(
+              _session.bloodAlcoholContent,
+              _session.habitTypeSnapshot,
+            );
+
+            this.logger.debug(
+              `Session [${_session.id}]: ${_session.bloodAlcoholContent} --> ${updatedBac}`,
+            );
+
+            _session.bloodAlcoholContent = updatedBac;
+            this.sessionRepository.save(_session);
+          } else {
+            this.logger.debug(
+              `Session [${_session.id}]: BAC doesn't need to be updated`,
+            );
+          }
+        },
+      );
+
+      this.schedulerRegistry.addCronJob(
+        `s/${newSession.id}/bac_updater`,
+        burnOffUpdater,
+      );
+
+      this.logger.debug(`s/${newSession.id}/bac_updater added`);
+      burnOffUpdater.start();
+      return newSession;
     } else {
       return null;
     }
@@ -130,6 +169,8 @@ export class SessionService implements ISessionService {
       if (session.isActive) {
         session.isActive = false;
         session.sessionEnd = new Date();
+        this.schedulerRegistry.deleteCronJob(`s/${id}/bac_updater`);
+        this.logger.warn(`job s/${id}/bac_updater deleted!`);
         await this.sessionRepository.save(session);
       } else {
         this.logger.warn(`Session [${session.id}] is already inactive`);

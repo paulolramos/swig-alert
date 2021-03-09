@@ -1,8 +1,10 @@
 import { Injectable, Logger } from '@nestjs/common';
+import { Cron, CronExpression } from '@nestjs/schedule';
 import { InjectRepository } from '@nestjs/typeorm';
 import { session } from 'passport';
+import { BacService } from 'src/bac/bac.service';
 import { ISessionService } from 'src/session/session.service.interface';
-import { User } from 'src/user/user.entity';
+import { UserService } from 'src/user/user.service';
 import { Repository } from 'typeorm';
 import { Session } from './session.entity';
 
@@ -10,10 +12,10 @@ import { Session } from './session.entity';
 export class SessionService implements ISessionService {
   private readonly logger = new Logger(SessionService.name);
   constructor(
-    @InjectRepository(User) private userRepository: Repository<User>,
     @InjectRepository(Session) private sessionRepository: Repository<Session>,
+    private userService: UserService,
+    private bacService: BacService,
   ) {}
-
   async getAllSessionsByUserId(userId: string): Promise<Session[]> {
     const sessions = await this.sessionRepository.find({
       where: {
@@ -96,16 +98,22 @@ export class SessionService implements ISessionService {
   }
 
   async createSession(userId: string, session: Session): Promise<Session> {
-    const user = await this.userRepository.findOne(userId);
+    const user = await this.userService.findUserById(userId);
     if (user) {
       session.weightSnapshot = user.weightInPounds;
       session.baseBloodAlcoholContentSnapshot = user.baseBloodAlcoholContent;
       session.isActive = true;
       session.user = user;
+      session.habitTypeSnapshot = user.habitType;
+
       return await this.sessionRepository.save(session);
     } else {
       return null;
     }
+  }
+
+  async saveSession(session: Session): Promise<Session> {
+    return await this.sessionRepository.save(session);
   }
 
   async endSession(userId: string, id: string): Promise<void> {

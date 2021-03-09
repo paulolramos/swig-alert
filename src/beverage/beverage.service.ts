@@ -2,7 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { BacService } from 'src/bac/bac.service';
 import { NotificationService } from 'src/notification/notification.service';
-import { Session } from 'src/session/session.entity';
+import { SessionService } from 'src/session/session.service';
 import { Repository } from 'typeorm';
 import { Beverage } from './beverage.entity';
 import { IBeverageService } from './beverage.service.interface';
@@ -13,8 +13,7 @@ export class BeverageService implements IBeverageService {
   constructor(
     @InjectRepository(Beverage)
     private beverageRepository: Repository<Beverage>,
-    @InjectRepository(Session)
-    private sessionRepository: Repository<Session>,
+    private sessionService: SessionService,
     private bacService: BacService,
     private notificationService: NotificationService,
   ) {}
@@ -72,14 +71,7 @@ export class BeverageService implements IBeverageService {
     sessionId: string,
     beverage: Beverage,
   ): Promise<Beverage> {
-    const session = await this.sessionRepository.findOne({
-      where: {
-        id: sessionId,
-        user: {
-          id: userId,
-        },
-      },
-    });
+    const session = await this.sessionService.getSessionById(userId, sessionId);
 
     if (session) {
       const increaseInBac = this.bacService.getIncreaseInBac(
@@ -93,7 +85,7 @@ export class BeverageService implements IBeverageService {
       session.bloodAlcoholContent = newBAC;
       beverage.session = session;
 
-      this.sessionRepository.save(session);
+      this.sessionService.saveSession(session);
       const newBeverage = await this.beverageRepository.save(beverage);
 
       if (session.setDrinkReminder === true && !beverage.isConsumed) {

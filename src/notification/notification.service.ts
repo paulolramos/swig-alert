@@ -1,12 +1,10 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { SchedulerRegistry } from '@nestjs/schedule';
-import { InjectRepository } from '@nestjs/typeorm';
 import { CronJob } from 'cron';
 import { addMinutes } from 'date-fns';
 import { SessionService } from 'src/session/session.service';
-import { User } from 'src/user/user.entity';
-import { Repository } from 'typeorm';
 import { Twilio } from 'twilio';
+import { UserService } from 'src/user/user.service';
 
 @Injectable()
 export class NotificationService {
@@ -19,8 +17,7 @@ export class NotificationService {
 
   constructor(
     private schedulerRegistry: SchedulerRegistry,
-    @InjectRepository(User)
-    private userRepository: Repository<User>,
+    private userService: UserService,
     private sessionService: SessionService,
   ) {}
 
@@ -29,18 +26,8 @@ export class NotificationService {
     userId: string,
     sessionId: string,
   ): Promise<void> {
-    type UserSMSObject = Pick<
-      User,
-      'phoneNumber' | 'username' | 'drinkTimeMinutes'
-    >;
-
     // get necessary user info
-    const user: UserSMSObject = await this.userRepository.findOne({
-      select: ['phoneNumber', 'username', 'drinkTimeMinutes'],
-      where: {
-        id: userId,
-      },
-    });
+    const user = await this.userService.findUserById(userId);
 
     // check for phone number, in case user deleted
     if (user.phoneNumber) {

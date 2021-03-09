@@ -10,7 +10,7 @@ import { NotificationModule } from 'src/notification/notification.module';
 @Module({
   imports: [
     TypeOrmModule.forFeature([Beverage]),
-    forwardRef(() => SessionModule),
+    SessionModule,
     BacModule,
     NotificationModule,
   ],

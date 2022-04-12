@@ -24,7 +24,7 @@ import { NotificationModule } from './notification/notification.module';
         type: 'sqlite',
         database: './' + configService.get('DATABASE'),
         entities: [User, Session, Beverage],
-        synchronize: process.env.NODE_ENV === 'production' ? false : true,
+        synchronize: true,
         logging: process.env.NODE_ENV === 'production' ? false : true,
       }),
     }),

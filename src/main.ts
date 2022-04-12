@@ -27,7 +27,7 @@ async function bootstrap() {
   app.engine('hbs', hbs.engine);
   app.setViewEngine('hbs');
   app.useGlobalFilters(new UnauthorizedFilter());
-  await app.listen(3000 || process.env.PORT);
+  await app.listen(process.env.PORT || 3000);
   console.log(`Application is running on: ${await app.getUrl()}`);
 }
 bootstrap();
